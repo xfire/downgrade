@@ -1,0 +1,36 @@
+---
+layout: post
+title: blog renewal
+categories: growl, python, programming
+---
+
+after long time of inactivity I decide to revive my blog. but I no longer
+want to go with [nanoblogger](http://nanoblogger.sourceforge.net/) for 
+several personal reasons.
+
+I looked around and some time I stumbled over [jekyll][jekyll]. a really nice
+piece of work. but after some fuckup trying to get [jekyll's][jekyll] dependency
+gems installed and mucking around with the [pygments][pygments] integration,
+I found more and more odds and ends which prevent me to use [jekyll][jekyll]
+for my blog. ok, I must admit, I'm also not a really big fan of [ruby][ruby]. ;)
+
+[hyde][hyde], the "evil Python transformation" of [jekyll][jekyll], is imho
+a bit to over-engineered. I personally miss the simplicity of [jekyll][jekyll].
+
+so what to do?
+
+I decide to reinvent the wheel again and implement a brand new [python][python]
+based static site generator. because I think [jekyll][jekyll] and [hyde][hyde]
+are very good implementations, I shameless stole as much as I can. (on the other
+side I'm really really lazy)
+
+the output from the [fruits][growl] of my work are you reading at the moment.
+
+
+
+[growl]:    http://github.com/xfire/growl/tree/master       "growl"
+[python]:   http://www.python.org/                          "python"
+[jekyll]:   http://github.com/mojombo/jekyll/tree/master    "jekyll"
+[pygments]: http://pygments.org/                            "pygments"
+[ruby]:     http://www.ruby-lang.org/                       "ruby"
+[hyde]:     http://github.com/lakshmivyas/hyde/tree/master  "hyde"

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>{{ page.title }}</title>
+	<link rel="stylesheet" type="text/css" href="/css/site.css" charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="/css/pygments.css" charset="utf-8"/>
+    <link rel="alternate" type="application/atom+xml" title="{{ blog.title }}" href="/atom.xml"/>
+    <script type="text/javascript">
+        var disqus_iframe_css="{{ blog.url }}/css/disqus.css";
+    </script>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <a href="/">{{ blog.title }}</a>
+        </div>
+        <div id="wrapper">
+            <div id="content">
+                {{ content }}
+            </div>
+        </div>
+        <div id="sidebar">
+            <span>some random stuff from {{ blog.author }}</span>
+            <ul>
+                <li> <span>links</span>
+                     <ul>
+                         {% for link in site.links -%}
+                             <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+                         {% endfor %}
+                     </ul>
+                 </li>
+                 <li> <span>recent entries</span>
+                      <ul>
+                        {% for recent in site.posts|reverse|slice(8) %}
+                            {% for post in recent %}
+                                <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+                            {% endfor %}
+                        {% endfor %}
+                      </ul>
+                 </li>
+                 <li> <span>contact</span>
+                    <ul>
+                        <li>
+                            <a href="mailto:{{ blog.mailto }}">{{ blog.author }}</a>
+                            (<a href="/files/public_key_fire_at_downgra_dot_de.asc">public key</a>)
+                        </li>
+                    </ul>
+                 </li>
+            </ul>
+        </div>
+        <div id="footer">
+            <a href="{{ blog.github }}">growl</a>
+            <a href="/atom.xml"><img src="/images/feed_icon.png"/></a>
+        </div>
+    </div>
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+		var links = document.getElementsByTagName('a');
+		var query = '?';
+		for(var i = 0; i < links.length; i++) {
+			if(links[i].href.indexOf('#disqus_thread') >= 0) {
+				query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+			}
+		}
+		document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/downgrade/get_num_replies.js' + query + '"></' + 'script>');
+	})();
+//]]>
+</script>
+
+</body>
+</html>
