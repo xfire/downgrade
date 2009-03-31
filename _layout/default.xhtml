@@ -23,10 +23,17 @@
         <div id="sidebar">
             <span>some random stuff from {{ blog.author }}</span>
             <ul>
+                <li> <span>personal<br/>projects</span>
+                      <ul>
+                          {% for link in site.projects -%}
+                             <li>&raquo; <a href="{{ link.url }}">{{ link.name }}</a></li>
+                          {% endfor %}
+                      </ul>
+                 </li>
                 <li> <span>links</span>
                      <ul>
                          {% for link in site.links -%}
-                             <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+                             <li>&raquo; <a href="{{ link.url }}">{{ link.name }}</a></li>
                          {% endfor %}
                      </ul>
                  </li>
@@ -34,7 +41,7 @@
                       <ul>
                         {% for recent in site.posts|reverse|slice(8) %}
                             {% for post in recent %}
-                                <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+                                <li>&raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
                             {% endfor %}
                         {% endfor %}
                       </ul>
@@ -50,7 +57,7 @@
             </ul>
         </div>
         <div id="footer">
-            <a href="{{ blog.github }}">growl</a>
+            <a href="{{ blog.github }}">growl</a><br/>
             <a href="/atom.xml"><img src="/images/feed_icon.png"/></a>
         </div>
     </div>
