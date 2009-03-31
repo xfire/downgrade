@@ -89,6 +89,13 @@ a:hover { text-decoration: underline; }
     display: block;
 }
 
+#latest {
+    margin-top: 20px;
+    padding: 10px;
+    width: 60%;
+    background: #222222;
+}
+
 #entries ul {
     list-style: none;
     margin: 0 0 0 1em;
