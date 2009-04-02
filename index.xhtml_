@@ -3,32 +3,33 @@ layout: default
 title: downgra.de
 ---
 
-<div id="latest">
-    {% set latest_post = site.posts[0] %}
+<div id="latest" class="grid_7 suffix_2">
+    {% set latest_post = site.posts[-1] %}
     <h2>
         <a href="{{ latest_post.url }}"> newest entry: {{ latest_post.title }}</a>
     </h2>
-    {{ latest_post.transformed | xtruncate(400) }}
+    <hr/>
+    <div>
+        {{ latest_post.transformed | xtruncate(500) }}
+    </div>
     <a id="more" href="{{ latest_post.url }}">Read More &raquo;</a>
 </div>
 
-<div id="entries">
+<div id="entries" class="grid_9">
     <h1>entries</h1>
     <ul>
-       {% for category in site.categories -%}
+       {% for category in site.categories|sort -%}
        <li> 
-           {% if category %}
-            <a id="{{ category }}-toggle">{{ category }}</a>
-            <ul id="{{ category }}">
-           {% endif %}
+           {% set cname = category or '-' %}
+
+           <a id="{{ cname }}-toggle">{{ cname }}</a>
+           <ul id="{{ cname }}">
 
            {% for post in site.categories.get(category) -%}
                <li>{{ post.date|dateFormat }} &raquo; <a href="/{{ post.url }}">{{ post.title }}</a></li>
            {% endfor %}
 
-           {% if category %}
-            </ul>
-           {% endif %}
+           </ul>
        </li>
        {% endfor %}
     </ul>
@@ -38,8 +39,9 @@ title: downgra.de
 <script type="text/javascript">
 $(document).ready(function() {
     {% for category in site.categories -%}
-        $('a#{{ category }}-toggle').click(function() {
-            $('#{{ category }}').slideToggle(400);
+        {% set cname = category or '-' %}
+        $('a#{{ cname }}-toggle').click(function() {
+            $('#{{ cname }}').slideToggle(400);
             return false;
         });
     {% endfor %}

@@ -28,5 +28,5 @@ def xtruncate(s, length=255, end='...'):
                    indent=1,
                    show_body_only=1,
                    tidy_mark=0)
-    return str(tidy.parseString(str(s[:length]), **options)) + end
+    return str(tidy.parseString(str(s[:length]) + end, **options))
 
