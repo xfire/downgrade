@@ -14,11 +14,12 @@
     <div class="container_12">
 
         <div id="header" class="grid_12">
-            <div class="grid_8 alpha">
-                <a href="/">{{ blog.title }}</a>
+            <div class="grid_8 alpha title">
+                <div><a href="/">{{ blog.title }}</a></div>
             </div>
-            <div class="grid_4 omega">
-                <span>some random stuff from {{ blog.author }}</span>
+            <div class="grid_4 omega meta">
+                <div class="subtitle">some random stuff</div>
+                <div class="author">from {{ blog.author }}</div>
             </div>
         </div>
 
@@ -62,12 +63,11 @@
         </div>
 
         <div id="footer" class="grid_12">
-            <div class="grid_1 alpha">
-                <a href="/atom.xml"><img src="/images/feed_icon.png"/></a>
-            </div>
-            <div class="grid_1 omega clearfix">
-                <a href="{{ blog.github }}">growl</a><br/>
-            </div>
+            <ul>
+                <li><a href="{{ blog.github_growl }}">growl</a></li>
+                <li><a href="{{ blog.github_site }}">code</a></li>
+                <li><a href="/atom.xml">atom</a></li>
+            </ul>
         </div>
     </div>
 

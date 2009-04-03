@@ -7,5 +7,6 @@ Site.CONTEXT.blog = AttrDict(
         title = 'downgra[.]de',
         author = 'fire',
         mailto = 'blog@downgra.de',
-        github = 'http://github.com/xfire/growl/tree/master',
+        github_growl = 'http://github.com/xfire/growl/tree/master',
+        github_site = 'http://github.com/xfire/downgrade/tree/master',
     )
