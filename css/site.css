@@ -1,14 +1,6 @@
 /* add 960 grid system http://960.gs/ */
 @import url("reset.css");
-@import url("text.css");
 @import url("960.css");
-
-
-/* reset some settings from test.css */
-pre {
-    margin: 0; 
-    padding: 0;
-}
 
 
 /* fix pygments */
@@ -20,7 +12,7 @@ pre {
 
 /* downgra.de styles */
 html, body {
-    font: 12px Verdana, Arial, Helvetica, sans-serif;
+    font: 12px Verdana, Arial, Helvetica, FreeSans, sans-serif;
     color: #fff;
     background: #333333;
 }
@@ -28,12 +20,32 @@ html, body {
 img { border: 0; }
 table { border: 0; }
 
+hr {
+	border: 0 #ccc solid;
+	border-top-width: 1px;
+	clear: both;
+	height: 0;
+}
+
+h1, h2, h3, h4, h5, h6 { color: #81A594; }
+h1 { font-size: 19px; } 
+h2 { font-size: 17px; } 
+h3 { font-size: 15px; } 
+h4 { font-size: 13px; } 
+h5 { font-size: 11px; } 
+h6 { font-size:  9px; }
+
+ol { list-style: decimal; }
+ul { list-style: square; }
+li { margin-left: 30px; }
+
+p, dl, hr, h1, h2, h3, h4, h5, h6, ol, ul,
+table, address, fieldset { margin-bottom: 20px; }
+
 a {
     text-decoration: none;
     color: #cccc99;
 }
-
-h1, h2, h3, h4, h5, h6 { color: #81A594; }
 a:hover { text-decoration: underline; }
 a:focus { outline: 0; }
 
@@ -103,6 +115,8 @@ a:focus { outline: 0; }
 
 #entries {
     margin-top: 20px;
+    padding: 10px;
+    background: #222222;
 }
 #entries ul {
     list-style: none;
@@ -112,7 +126,11 @@ a:focus { outline: 0; }
 #entries > ul { margin: 0; }
 #entries li { margin-bottom: 4px; }
 
-.post { margin-top: 10px; }
+.post {
+    margin: 20px 0 20px 0;
+    padding: 10px;
+    background: #222222;
+}
 .post > h1 {
     margin-bottom: 5px;
     text-transform: uppercase;

@@ -3,11 +3,11 @@ layout: default
 title: downgra.de
 ---
 
-<div id="latest" class="grid_7 suffix_2">
+<div id="latest">
     {% set latest_post = site.posts[-1] %}
-    <h2>
+    <h1>
         <a href="{{ latest_post.url }}"> newest entry: {{ latest_post.title }}</a>
-    </h2>
+    </h1>
     <hr/>
     <div>
         {{ latest_post.transformed | xtruncate(500) }}
@@ -15,7 +15,7 @@ title: downgra.de
     <a id="more" href="{{ latest_post.url }}">Read More &raquo;</a>
 </div>
 
-<div id="entries" class="grid_9">
+<div id="entries">
     <h1>entries</h1>
     <ul>
        {% for category in site.categories|sort -%}
