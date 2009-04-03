@@ -24,18 +24,47 @@ based static site generator. I think [jekyll][jekyll] and [hyde][hyde]
 are both very good implementations. so I shameless stole as much as I can. (on 
 the other side I'm really really lazy guy)
 
-to a lot of thanks to all those people.
+thanks a lot to all those people.
 
-the output from the [fruits][growl] of my work are you looking at the moment.
+at the moment you are looking on the output from the [fruits][growl] of my work.
 [growl][growl] is now in a useable and hopefull more or less bugfree state. so
-feel free to experiment with it.
+feel free to experiment with it, and let me know if you like it.
 
-my most loving key features are:
+hth
+
+### features
+
+my favourite features are:
 
 * minimal dependencies
+
+  you only need a standard [python][python] install and the
+  [python-yaml](http://www.yaml.org/) package. all other is optional. 
+  
+  nevertheless I recomment [jinja2](http://jinja.pocoo.org/2/). but you are free to use
+  [django templates](http://www.djangoproject.com/), [mako](http://www.makotemplates.org/),
+  [cheetah](http://www.cheetahtemplate.org/) or whatever you like.
+
+  [markdown](http://daringfireball.net/projects/markdown/) and
+  [textile](http://www.textism.com/tools/textile/) are also supported out of the box
+  like [jinja2](http://jinja.pocoo.org/2/), if the corresponding [python][python]
+  packages are installed.
+
 * easy to install (and use?) ;)
+
+  simply install the few needed python packages and then use `growl.py` directly,
+  or copy the file to a directory in your `$PATH`. thats all.
+
 * easy to extend
 
+  using hooks, you can use other template engines, add support for other markup syntax
+  or add metadata to your site context. and all with only a few lines of [python][python]
+  code.
+
+### code, examples
+
+take a look at [growl]({{ blog.github_growl }}) and as example the [code]({{ blog.github_site }})
+of this site.
 
 ### bugs
 please report any bug's you may discover
@@ -53,3 +82,4 @@ the license is [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html).
   [pygments]:  http://pygments.org/                            "pygments"
   [ruby]:      http://www.ruby-lang.org/                       "ruby"
   [hyde]:      http://github.com/lakshmivyas/hyde/tree/master  "hyde"
+
