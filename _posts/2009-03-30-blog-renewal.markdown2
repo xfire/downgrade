@@ -20,19 +20,36 @@ a bit to over-engineered. I personally miss the simplicity of [jekyll][jekyll].
 so what to do?
 
 I decide to reinvent the wheel again and implement a brand new [python][python]
-based static site generator. because I think [jekyll][jekyll] and [hyde][hyde]
-are very good implementations, I shameless stole as much as I can. (on the other
-side I'm really really lazy)
+based static site generator. I think [jekyll][jekyll] and [hyde][hyde]
+are both very good implementations. so I shameless stole as much as I can. (on 
+the other side I'm really really lazy guy)
 
-the output from the [fruits][growl] of my work are you reading at the moment.
+to a lot of thanks to all those people.
+
+the output from the [fruits][growl] of my work are you looking at the moment.
+[growl][growl] is now in a useable and hopefull more or less bugfree state. so
+feel free to experiment with it.
+
+my most loving key features are:
+
+* minimal dependencies
+* easy to install (and use?) ;)
+* easy to extend
 
 
+### bugs
+please report any bug's you may discover
+[here](http://http://bugs.projects.spamt.net/cgi-bin/bugzilla3/enter_bug.cgi?product=growl).
+
+### license
+the license is [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html).
 
 
+  [growl]:     http://github.com/xfire/growl/tree/master       "growl"
+  [downgrade]: http://github.com/xfire/downgrade/tree/master   "downgra.de"
 
-[growl]:    http://github.com/xfire/growl/tree/master       "growl"
-[python]:   http://www.python.org/                          "python"
-[jekyll]:   http://github.com/mojombo/jekyll/tree/master    "jekyll"
-[pygments]: http://pygments.org/                            "pygments"
-[ruby]:     http://www.ruby-lang.org/                       "ruby"
-[hyde]:     http://github.com/lakshmivyas/hyde/tree/master  "hyde"
+  [python]:    http://www.python.org/                          "python"
+  [jekyll]:    http://github.com/mojombo/jekyll/tree/master    "jekyll"
+  [pygments]:  http://pygments.org/                            "pygments"
+  [ruby]:      http://www.ruby-lang.org/                       "ruby"
+  [hyde]:      http://github.com/lakshmivyas/hyde/tree/master  "hyde"
