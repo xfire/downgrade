@@ -1,0 +1,14 @@
+---
+layout: default
+title: unpublished posts
+---
+
+<div id="entries">
+    <h1>!maintenance mode!</h1>
+    <ul>
+       {% for post in site.unpublished_posts -%}
+           <li>{{ post.date|dateFormat }} &raquo; <a href="/{{ post.url }}">{{ post.title }}</a></li>
+       {% endfor %}
+    </ul>
+</div>
+
