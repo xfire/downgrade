@@ -1,0 +1,63 @@
+---
+layout: post
+title: 960 css framework
+categories: css
+---
+
+doing website layouts using css can sometimes be a real [pita][pita]. there
+are a lot of css frameworks out in the wild. the one which impresse me the
+most because of its simplicity is the [960 grid system][960].
+
+the [960 grid system][960] defines a 960 pixel wide content pane and offer
+12 or 16 columns, which can be used separately or in tandem. the site content
+can now be spanned in those columns. the only rule is, that each row must be
+completely defined.
+
+setting up your layout is done by creating `<div>` tags with the correct
+css classes.
+
+this may look like this:
+
+    :::html
+    <div class="container_12">
+        <div id="header"  class="grid_12">...</div>
+        <div id="sidebar" class="grid_3">...</div>
+        <div id="content" class="grid_9">...</div>
+        <div id="footer"  class="grid_12">...</div>
+    </div>
+
+with this you got an header and footer going over the complete available
+width of `960px`. between you got a sidebar alongside the content pane.
+since we used the 12 column container, the sidebar is
+`3 * (60px + 2 * 10px)` = `240px` wide, the content pane
+`9 * (60px + 2 * 10px)` = `720px`. now you may ask, what these `2 * 10px`
+are. each column in a 12 column grid has a width of `60px` with `10px`
+margin on the left and right. on a 16 column grid, a column is `40px` wide,
+also with `10px` margin on the left and right.
+
+you can also nest your div's, but now those `10px` margins get in the way.
+to solve this, you can specify a `alpha` and a `omega` class to the
+first and last div. e.g.
+
+    :::html
+    <div class="container_12">
+        <div id="header"  class="grid_12">
+            <div id="title" class="grid_4 alpha">...</div>
+            <div id="empty" class="grid_4">...</div>
+            <div id="info"  class="grid_4 omega">...</div>
+        </div>
+        <div id="sidebar" class="grid_3">...</div>
+        <div id="content" class="grid_9">...</div>
+        <div id="footer"  class="grid_12">...</div>
+    </div>
+
+ah, one thing you should mind is, that you don't define a padding or margin
+for a div which already has a `grid_??` class set. use a second, nested
+div to achieve this.
+
+imho all really easy. best you play a bit around and look at some
+[examples]({{ blog.github_site }}).
+
+
+   [960]:   http://960.gs/                                 "960 grid system"
+   [pita]:  http://en.wiktionary.org/wiki/pain_in_the_ass  "pain in the ass"
