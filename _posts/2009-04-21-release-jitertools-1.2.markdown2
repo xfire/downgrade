@@ -1,0 +1,18 @@
+---
+layout: post
+title: release jitertools version 1.2
+categories: java, python, programming
+---
+
+I just released [version 1.2][ji12] of the [jitertools][ji] library. this release adds 
+new functions (tabulate, nth and consume) and fixes some minor bugs.
+
+also I manage issues now directly on [github](http://github.com/xfire/jitertools/issues).
+
+for details, look at the `README` in the [project root][ji].
+
+hth
+
+
+  [ji]:     http://github.com/xfire/jitertools/tree/        "jitertools - github"
+  [ji12]:   http://github.com/xfire/jitertools/tree/v1.2    "jitertools 1.2 - github"
