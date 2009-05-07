@@ -1,0 +1,20 @@
+---
+layout: post
+title: release growl version 0.3
+categories: growl, python, programming
+---
+
+I just released [version 0.3][growl03] of [growl][growl]. this release adds 
+a better deploying facility (`--deploy` and `post.publish`) and simplifies the
+`wrap()` helper function.
+
+also I manage issues now directly on [github](http://github.com/xfire/growl/issues).
+
+for details, look at the `README` in the [project root][growl].
+
+hth
+
+
+  [growl]:   http://github.com/xfire/growl/tree/master       "growl - github"
+  [growl03]: http://github.com/xfire/growl/tree/v0.3         "growl 0.3 - github"
+
