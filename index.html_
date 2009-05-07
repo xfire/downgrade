@@ -10,19 +10,18 @@ title: downgra.de
     </h1>
     <hr/>
     <div>
-        {{ latest_post.transformed | xtruncate(500) }}
+        {{ latest_post.transformed }}
     </div>
-    <a id="more" href="{{ latest_post.url }}">Read More &raquo;</a>
 </div>
 
 <div id="entries">
-    <h1>entries</h1>
+    <h1>categories / entries</h1>
     <ul>
        {% for category in site.categories|sort -%}
        <li> 
            {% set cname = category or '-' %}
 
-           <a id="{{ cname }}-toggle">{{ cname }}</a>
+           <a id="{{ cname }}-toggle">{{ cname }} ...</a>
            <ul id="{{ cname }}">
 
            {% for post in site.categories.get(category) -%}
@@ -44,6 +43,7 @@ $(document).ready(function() {
             $('#{{ cname }}').slideToggle(400);
             return false;
         });
+        $('#{{ cname }}').hide();
     {% endfor %}
 });
 </script>
