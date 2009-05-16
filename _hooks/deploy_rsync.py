@@ -1,12 +1,28 @@
-#!/usr/bin/env python
-#
 # vim:syntax=python:sw=4:ts=4:expandtab
+#
+# Copyright (C) 2009 Rico Schiekel (fire at downgra dot de)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 2
+# as published by the Free Software Foundation
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+# MA 02110-1301, USA.
+#
 
 import subprocess
 
-REMOTE_PATH = 'fire@web.spamt.net:/var/www/downgra.de/'
+REMOTE_PATH = 'user@host:/path/'
 
-def deploy_rsync(forig, self):
+@wrap(Site.deploy)
+def deploy_rsync(self):
     cmd = 'rsync -ahz --delete %s/* %s\n' % (self.DEPLOY_DIR, REMOTE_PATH)
     sys.stderr.write('deploy to >>> %s\n' % REMOTE_PATH)
     ret = subprocess.call(cmd, shell=True)
@@ -14,7 +30,5 @@ def deploy_rsync(forig, self):
         sys.stderr.write('<<< finished\n')
     else:
         sys.stderr.write('<<< failed! (return code: %d)\n' % ret)
-    return forig(self)
-
-Site.deploy = wrap(Site.deploy, deploy_rsync)
+    return deploy_rsync.super(self)
 
