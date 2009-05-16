@@ -1,0 +1,45 @@
+---
+layout: post
+title: python monkey patching
+categories: python, programming
+---
+
+to support an easy and [kiss][kiss] way for [growl][growl] hooks to extend
+the existing classes, I wrote a `wrap()` decorator, which overwrite an
+existing class method. the overwritten, original method will be passed as
+parameter to the new method.
+
+    :::python
+    def wrap(orig_func):
+        """ decorator to wrap an existing method of a class.
+            e.g.
+
+            @wrap(Post.write)
+            def verbose_write(forig, self):
+                print 'generating post: %s (from: %s)' % (self.title,
+                                                          self.filename)
+                return forig(self)
+
+            the first parameter of the new function is the the original,
+            overwritten function ('forig').
+        """
+
+        # har, some funky python magic NOW!
+        @functools.wraps(orig_func)
+        def outer(new_func):
+            def wrapper(*args, **kwargs):
+                return new_func(orig_func, *args, **kwargs)
+            if inspect.ismethod(orig_func):
+                setattr(orig_func.im_class, orig_func.__name__, wrapper)
+            return wrapper
+        return outer
+
+the example from the doc-string is imho meaningful enough. more examples
+can be found in the [hooks directory][hooks] of growl.
+
+hth
+
+   [mp]:    http://en.wikipedia.org/wiki/Monkey_patching     "monkey patching"
+   [growl]: http://github.com/xfire/growl/tree/master        "growl - github"
+   [hooks]: http://github.com/xfire/growl/tree/master/_hooks "growl - github"
+   [kiss]:  http://en.wikipedia.org/wiki/KISS_principle      "Keep it Simple, Stupid"
