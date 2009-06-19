@@ -19,16 +19,29 @@
 
 import subprocess
 
-REMOTE_PATH = 'user@host:/path/'
+# REMOTE_PATH = 'user@host:/path/'
+REMOTE_PATH = 'fire@web.spamt.net:/var/www/downgra.de/'
 
-@wrap(Site.deploy)
-def deploy_rsync(self):
-    cmd = 'rsync -ahz --delete %s/* %s\n' % (self.DEPLOY_DIR, REMOTE_PATH)
-    sys.stderr.write('deploy to >>> %s\n' % REMOTE_PATH)
-    ret = subprocess.call(cmd, shell=True)
-    if ret == 0:
-        sys.stderr.write('<<< finished\n')
-    else:
-        sys.stderr.write('<<< failed! (return code: %d)\n' % ret)
-    return deploy_rsync.super(self)
+@wrap(Site.setupOptions)
+def setupOptions(forig, self, parser):
+    forig(self, parser)
+    parser.set_defaults(deploy = False)
+    parser.add_option('--deploy',
+                      action = 'store_true', dest = 'deploy',
+                      help = 'deploy site')
 
+
+@wrap(Site.run)
+def run_rsync(forig, self):
+    # first run 'default' actions and maybe other run hooks
+    forig(self)
+
+    if self.options.deploy:
+
+        cmd = 'rsync -ahz --delete %s/* %s\n' % (self.DEPLOY_DIR, REMOTE_PATH)
+        sys.stderr.write('deploy to >>> %s\n' % REMOTE_PATH)
+        ret = subprocess.call(cmd, shell=True)
+        if ret == 0:
+            sys.stderr.write('<<< finished\n')
+        else:
+            sys.stderr.write('<<< failed! (return code: %d)\n' % ret)
