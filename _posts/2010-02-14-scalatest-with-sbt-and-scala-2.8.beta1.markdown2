@@ -1,0 +1,27 @@
+---
+layout: post
+title: scalatest with sbt and scala 2.8.beta1
+categories: scala, programming
+---
+
+To get scalatest working for scala 2.8.Beta1 under [sbt][sbt] you need the following
+configuration:
+
+
+    :::scala
+    import sbt._
+
+    class MyProject(info: ProjectInfo) extends DefaultProject(info) {
+        // External dependencies
+
+      val scalaToolsRepo = "Scala-Tools Maven Repository" at
+        "http://nexus.scala-tools.org/content/repositories/snapshots/"
+
+      val scalatest = "org.scalatest" % "scalatest" %
+        "1.0.1-for-scala-2.8.0.Beta1-RC7-with-test-interfaces-0.3-SNAPSHOT" % "test"
+    }
+
+
+hth
+
+   [sbt]:  http://code.google.com/p/simple-build-tool/ "simple-build-tool"
