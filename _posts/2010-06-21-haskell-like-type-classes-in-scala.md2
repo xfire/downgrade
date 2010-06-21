@@ -1,0 +1,101 @@
+---
+layout: post
+title: haskell like type classes in scala
+categories: scala, haskell, programming
+---
+
+we all surely know how type classes in [haskell][haskell] work and how to use them. ;)
+
+maybe a bit like this:
+
+    :::haskell
+    class (Show a) => MyTypeClass a where
+        absFunc :: a -> String
+        concFunc :: a -> String 
+        concFunc a = "concrete(" ++ show a ++ ")"
+    
+    data FooBar = FooBar { foo :: String, bar :: String } deriving (Show)
+    
+    printIt :: (MyTypeClass a) => a -> String
+    printIt a = absFunc a ++ " " ++ concFunc a
+    
+    instance MyTypeClass FooBar where
+        absFunc (FooBar f b) = "foo(" ++ show f ++ "), bar(" ++ show b ++ ")"
+    
+    main::IO()
+    main = putStrLn $ printIt $ FooBar "hallo" "welt"
+
+
+this example generates an output like this:
+
+    :::bash
+    > runhaskell typeClass.hs
+    foo("hallo"), bar("welt") concrete(FooBar {foo = "hallo", bar = "welt"})
+
+
+with [scala][scala] it is also possible to define and use type classes using `implicits`.
+
+here's a simple example which has the advantage over [haskell][haskell], that the type instances
+only apply to the surrounding scope, where the [haskell][haskell] type instances are global. (please
+correct me if I'm wrong)
+
+
+    :::scala
+    trait MyTypeClass[T] {
+      def absFunc(a: T): String
+      def concFunc(a: T): String = "concrete(%s)".format(a)
+    }
+    def printIt[T: MyTypeClass](t: T) = implicitly[MyTypeClass[T]].absFunc(t) + " " +
+                                        implicitly[MyTypeClass[T]].concFunc(t)
+    
+    class FooBar(val foo: String, val bar: String)
+    
+    object MyInstance {
+      implicit object FooBarTypeClass extends MyTypeClass[FooBar] {
+        def absFunc(a: FooBar): String = {
+          import a._
+          "foo(%s), bar(%s)".format(foo, bar)
+        }
+      }
+    }
+    
+    val fb1 = new FooBar("hallo", "welt")
+    
+    { import MyInstance._
+      println(printIt(fb1))
+    }
+    
+    object MySpecialInstance {
+      implicit object FooBarSpecialTypeClass extends MyTypeClass[FooBar] {
+        def absFunc(a: FooBar): String = {
+          import a._
+          "FOO => %s, BAR => %s".format(foo, bar)
+        }
+        override def concFunc(a: FooBar): String = {
+          import a._
+          "concrete(%s, %s)".format(foo, bar)
+        }
+      }
+    }
+
+    { import MySpecialInstance._
+      println(printIt(fb1))
+    }
+
+
+the output should look like this:
+
+    :::bash
+    > scala typeClasses.scala
+    foo(hallo), bar(welt) concrete(Main$$anon$1$FooBar@fcfa52)
+    FOO => hallo, BAR => welt concrete(hallo, welt)
+
+
+please note, that scala 2.8 is needed.
+
+hth
+
+
+  [haskell]: http://www.haskell.org/    "haskell"
+  [scala]:   http://www.scala-lang.org/ "scala"
+
