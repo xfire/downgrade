@@ -19,6 +19,7 @@ projects = [ Link('growl',       'https://github.com/xfire/growl/tree'),
 
 links = [ Link('github',             'http://github.com/xfire/'),
           Link('dotfiles',           'https://github.com/xfire/dotfiles/tree'),
+          Link('delicious',          'http://delicious.com/_xfire'),
           Link('my soup',            'http://soup.downgra.de'),
           Link("copton's blog",      'http://blog.copton.net/'),
           Link("copton's ethz blog", 'http://blogs.ethz.ch/copton/'),
