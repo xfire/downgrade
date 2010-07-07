@@ -14,6 +14,7 @@
     border: 0px solid black;
     padding: 0;
     margin: 0;
+    color: #fff;
 }
 
 
@@ -157,9 +158,15 @@ a:focus { outline: 0; }
 .post > div { margin-top: 40px; }
 
 code {
-    border: 1px solid #111111;
-    background-color: #333333;
-    font-size: 90%;
-    padding: 0 .2em 0 .2em;
+	border-left: 2px solid #999;
+	border-right: 2px solid #999;
+    padding: 0 .3em 0 .3em;
+    color: #ddd;
 }
 
+blockquote {
+	margin: 1em 3em;
+	color: #999;
+	border-left: 2px solid #999;
+	padding-left: 1em;
+}
