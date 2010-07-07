@@ -1,0 +1,94 @@
+---
+layout: post
+title: functors in scala and haskell part 1
+categories: scala, haskell, functors, programming
+---
+
+today I post some [functor][functors] examples to show how to use them in [haskell][haskell]
+and in [scala][scala]. 
+
+[haskell][haskell] functors a available in the `Control.Monad` and the `Control.Monad.Instances`
+module.
+
+I won't reinvent the wheel so I use the [scalaz][scalaz] library. This cool library provides
+a lot of handy features like functors, applicative functors or monads.
+
+a good description what [functor's][functors] are, is the following sentence:
+
+
+> Functors are structure-preserving maps between categories.
+
+
+so, here is a example which should illustrate this behavior.
+
+first in haskell:
+
+    :::haskell
+    -- the simple tree datastructure
+    data Tree a = Node a (Tree a) (Tree a)
+                     | Empty
+                     deriving (Show)
+    
+    -- we need a functor instance for our Tree
+    instance Functor Tree where
+        fmap f Empty        = Empty
+        fmap f (Node v l r) = Node (f v) (fmap f l) (fmap f r)
+    
+    -- our sample data
+    sampleTree :: Tree String
+    sampleTree = Node "Foo" (Node "Bar" Empty (Node "BlubBlub" Empty Empty)) Empty
+    
+    -- the output
+    --   Node "Foo" (Node "Bar" Empty (Node "BlubBlub" Empty Empty)) Empty
+    --   Node 3 (Node 3 Empty (Node 8 Empty Empty)) Empty
+    main::IO()
+    main = do
+        putStrLn $ show sampleTree
+        putStrLn $ show $ fmap length sampleTree
+
+
+second in scala using [scalaz][scalaz]:
+
+    :::scala
+    import Scalaz._
+
+    // the simple tree datastructure
+    sealed abstract class Tree[A]
+    case class Empty[Any]() extends Tree[Any]
+    case class Node[A](v: A, l: Tree[A], r: Tree[A]) extends Tree[A]
+
+    // we need a functor instance for our Tree
+    implicit def TreeFunctor = new Functor[Tree] {
+      def fmap[A, B](t: Tree[A], f: A => B): Tree[B] = t match {
+        case Node(v, l, r) => Node(f(v), fmap(l, f), fmap(r, f))
+        case Empty() => Empty()
+      }
+    }
+
+    // our sample data
+    val sampleTree: Tree[String] =
+        Node("Foo", Node("Bar", Empty(), Node("BlubBlub", Empty(), Empty())), Empty())
+
+    // the output:
+    //   Node(Foo,Node(Bar,Empty(),Node(BlubBlub,Empty(),Empty())),Empty())
+    //   Node(3,Node(3,Empty(),Node(8,Empty(),Empty())),Empty())
+    println(sampleTree)
+    println(sampleTree map (_.length))
+
+
+[functor's][functors] are a awesome abstraction over data structures and a corner stone for
+[monad's][monad]. definitively need deeper inspection. ;)
+
+hth
+
+ps: I'm in the beginning of understanding the [category theory][ctheory], so please correct me if I'm
+wrong on something.
+
+
+  [ctheory]:  http://en.wikipedia.org/wiki/Category_theory            "category theory"
+  [functors]: http://en.wikipedia.org/wiki/Category_theory#Functors_2 "functors"
+  [haskell]:  http://www.haskell.org/                                 "haskell"
+  [scala]:    http://www.scala-lang.org/                              "scala"
+  [scalaz]:   http://code.google.com/p/scalaz/                        "scalaz"
+  [monad]:    http://en.wikipedia.org/wiki/Monad_(functional_programming) "monad"
+
