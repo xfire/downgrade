@@ -45,3 +45,14 @@ def xtruncate(s, length=255, end='...'):
                    show_body_only=1,
                    tidy_mark=0)
     return str(tidy.parseString(str(s[:length]) + end, **options))
+
+import re
+
+@templateFilter
+def slugify(inStr):
+    removelist = ["a", "an", "as", "at", "before", "but", "by", "for","from","is", "in", "into", "like", "of", "off", "on", "onto","per","since", "than", "the", "this", "that", "to", "up", "via","with"];
+    for a in removelist:
+        aslug = re.sub(r'\b'+a+r'\b','',inStr)
+    aslug = re.sub('[^\w\s-]', '', aslug).strip().lower()
+    aslug = re.sub('\s+', '-', aslug)
+    return aslug

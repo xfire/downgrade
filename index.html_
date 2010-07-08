@@ -3,15 +3,38 @@ layout: default
 title: downgra.de
 ---
 
-<div id="latest">
-    {% set latest_post = site.posts[-1] %}
-    <h1>
-        <a href="{{ latest_post.url }}"> newest entry: {{ latest_post.title }}</a>
-    </h1>
-    <hr/>
+<div id="latest" class="post">
+    {% set post = site.posts[-1] %}
+
+    <h1> <a href="{{ post.url }}"> newest entry: {{ post.title }}</a> </h1>
+    <span class="date">{{ post.date | dateFormat}}</span>
+    <span class="post-topics">
+        <a href="http://downgra.de/{{ post.url }}#disqus_thread">comments</a>
+        {% if post.categories %}
+            |
+            {% for category in post.categories %}
+                {{ category }}{% if not loop.last %},{% endif %}
+            {% endfor %}
+        {% endif %}
+    </span>
+
     <div>
-        {{ latest_post.transformed }}
+        {{ post.transformed }}
     </div>
+
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+      var disqus_identifier = '{{ post.title | slugify }}';
+      (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = 'http://downgrade.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=downgrade">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
 </div>
 
 <div id="entries">
