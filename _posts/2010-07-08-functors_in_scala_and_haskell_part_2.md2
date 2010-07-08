@@ -1,0 +1,82 @@
+---
+layout: post
+title: functors in scala and haskell part 2
+categories: scala, haskell, functors, programming
+---
+
+###### history
+
+* [functors in scala and haskell part 1][part1]
+
+- - - -
+
+this is part 2 of the [functor][functors] survey with some fresh examples.
+
+first the haskell examples:
+
+    :::haskell
+    import Control.Monad.Instances
+    
+    -- output
+    main::IO()
+    main = do
+        putStrLn $ show $ fmap (replicate 3) [1..4]
+        putStrLn $ show $ fmap (replicate 3) (Just 4)
+        putStrLn $ show $ fmap (replicate 3) Nothing
+        putStrLn $ show $ fmap (replicate 3) (Right "foo")
+        putStrLn $ show $ fmap (replicate 3) (Left "foo")
+
+
+which generates the following output:
+
+    :::bash
+    > runhaskell fmaps.hs
+    [[1,1,1],[2,2,2],[3,3,3],[4,4,4]]
+    Just [4,4,4]
+    Nothing
+    Right ["foo","foo","foo"]
+    Left "foo"
+
+
+very readable and handy...
+
+instead of [haskell's][haskell] `fmap` function, [scalaz][scalaz] enables the `map`
+function to do the same thing using implicit functor instances. (take a look at the 
+[implementation](http://scalaz.googlecode.com/svn/continuous/latest/browse.sxr/scalaz/Functor.scala.html)
+and my article about [type classes](http://downgra.de/2010/06/21/haskell-like-type-classes-in-scala/)
+for more informations)
+
+
+    :::scala
+    import Scalaz._
+
+    def replicate[A](num: Int)(value: A): List[A] = value.replicate[List](num)
+
+    assert((List(1,2,3,4) map replicate(3) _) === List(List(1,1,1), List(2,2,2),
+                                                       List(3,3,3), List(4,4,4)))
+
+    assert((Some(4) map replicate(3) _) === Some(List(4,4,4)))
+
+    assert(((None: Option[_]) map replicate(3) _) == None)
+
+    // unlike haskell, Left and Right is handled the same
+
+    assert((Right("foo").right map replicate(3) _).right ===
+            Right(List("foo", "foo", "foo")).right)
+
+    assert((Left("foo").left map replicate(3) _).left ===
+            Left(List("foo", "foo", "foo")).left)
+
+
+you can see, [haskell][haskell] and [scalaz][scalaz] define a lot of functor instances for
+common data structures like Maybe / Option, Either or lists. 
+
+not much stunning today, but maybe in the next part.
+
+hth
+
+  [functors]: http://en.wikipedia.org/wiki/Category_theory#Functors_2 "functors"
+  [scala]:    http://www.scala-lang.org/                              "scala"
+  [scalaz]:   http://code.google.com/p/scalaz/                        "scalaz"
+  [haskell]:  http://www.haskell.org/                                 "haskell"
+  [part1]:    http://downgra.de/2010/07/07/functors_in_scala_and_haskell_part_1 "functors in scala and haskell part 1"

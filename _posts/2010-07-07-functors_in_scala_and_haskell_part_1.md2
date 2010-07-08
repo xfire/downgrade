@@ -21,7 +21,7 @@ a good description what [functor's][functors] are, is the following sentence:
 
 so, here is a example which should illustrate this behavior.
 
-first in haskell:
+first haskell:
 
     :::haskell
     -- the simple tree datastructure
@@ -38,16 +38,25 @@ first in haskell:
     sampleTree :: Tree String
     sampleTree = Node "Foo" (Node "Bar" Empty (Node "BlubBlub" Empty Empty)) Empty
     
-    -- the output
-    --   Node "Foo" (Node "Bar" Empty (Node "BlubBlub" Empty Empty)) Empty
-    --   Node 3 (Node 3 Empty (Node 8 Empty Empty)) Empty
     main::IO()
     main = do
         putStrLn $ show sampleTree
         putStrLn $ show $ fmap length sampleTree
 
 
-second in scala using [scalaz][scalaz]:
+generating the following output:
+
+    :::bash
+    > runhaskell functorTree.hs
+    Node "Foo" (Node "Bar" Empty (Node "BlubBlub" Empty Empty)) Empty
+    Node 3 (Node 3 Empty (Node 8 Empty Empty)) Empty
+
+
+you see, the sample tree containing the strings is mapped to a new tree containing
+the length of the several strings. the structure of the tree remain intact.
+
+
+now scala using [scalaz][scalaz]:
 
     :::scala
     import Scalaz._
@@ -69,15 +78,26 @@ second in scala using [scalaz][scalaz]:
     val sampleTree: Tree[String] =
         Node("Foo", Node("Bar", Empty(), Node("BlubBlub", Empty(), Empty())), Empty())
 
-    // the output:
-    //   Node(Foo,Node(Bar,Empty(),Node(BlubBlub,Empty(),Empty())),Empty())
-    //   Node(3,Node(3,Empty(),Node(8,Empty(),Empty())),Empty())
     println(sampleTree)
     println(sampleTree map (_.length))
 
 
-[functor's][functors] are a awesome abstraction over data structures and a corner stone for
-[monad's][monad]. definitively need deeper inspection. ;)
+    :::bash
+    > scala functorTree.scala
+    Node(Foo,Node(Bar,Empty(),Node(BlubBlub,Empty(),Empty())),Empty())
+    Node(3,Node(3,Empty(),Node(8,Empty(),Empty())),Empty())
+
+
+these both examples show, that for own types like our tree, special `fmap` or rather functor instances
+must be written. most times this is done easily, but those instance must follow some simple rules:
+
+* identity morphism: `fmap id = id`
+* composition morphism: `fmap (f . g) = fmap f . fmap g`
+
+so [functor's][functors] are a awesome abstraction over data structures and a corner stone for
+[monad's][monad].
+
+enough for now...
 
 hth
 
