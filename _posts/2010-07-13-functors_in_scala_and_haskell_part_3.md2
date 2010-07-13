@@ -1,0 +1,80 @@
+---
+layout: post
+title: functors in scala and haskell part 3
+categories: scala, haskell, functors, programming
+---
+
+###### history
+
+* [functors in scala and haskell part 1][part1]
+* [functors in scala and haskell part 2][part2]
+
+- - - -
+
+[functors][functors] don't only work on data structures, but also on functions. so fmap'ing 
+the function `(*3) :: (Num a) => a -> a` over another function like `(+100) :: (Num a) => a -> a` results
+in a new function which apply `(*3)` to the result of `(+100)`.
+
+this sounds like something we already know. yeah, function composition with the dot `(.)` function.
+therefore the functor instance for functions must be written like this:
+
+    :::haskell
+    instance Functor ((->) r) where  
+        fmap = (.)
+
+this instance is defined in the `Control.Monad.Instances` module. here some examples
+
+    :::haskell
+    import Control.Monad.Instances
+
+    f1 = (100 +)
+    f2 = (3*)
+    f3 = fmap (++ "_FOO") show
+
+    main::IO()
+    main = do
+       putStrLn $ show $ fmap f2 f1 1
+       putStrLn $ show $ fmap (*3) (+100) 1
+       putStrLn $ show $ fmap f3 [10,20,30]
+
+resulting in the following output
+
+    :::bash
+    > runhaskell fmaps2.hs
+    303                              
+    303
+    ["10_FOO","20_FOO","30_FOO"]
+
+pretty cool imho. now the same in [scalaz][scalaz]:
+
+    :::scala
+    import Scalaz._
+ 
+    val f1 = (x: Int) => 100 + x
+    val f2 = (x: Int) => 3 * x
+ 
+    assert((f1 map f2)(Functor.Function1Functor)(1) === 303)
+    assert((f1 map f2).apply(1) === 303)
+    assert(((1).pure[Identity] map f1 map f2) === 303)
+    assert(((1).pure[Identity] map (100+) map (3*)) === 303)
+ 
+    assert((List(10,20,30) map (_.toString) map (_ ++ "_FOO")) ===
+            List("10_FOO", "20_FOO", "30_FOO"))
+
+I think this is relative straight forward. one problem are the implicit parameters when we
+try to call the new mapped function. so best call the `apply(...)` function directly.
+
+another little problem is the need of the `pure` function on our sample value 1. [scala][scala] need
+this type lifting to `Identity` to get the map function ready for our value. maybe I'm wrong here and
+there is a better and simpler solution. any hint is welcome.
+
+so much for [functors][functors] on functions.
+
+hth
+
+  [functors]: http://en.wikipedia.org/wiki/Category_theory#Functors_2 "functors"
+  [scala]:    http://www.scala-lang.org/                              "scala"
+  [scalaz]:   http://code.google.com/p/scalaz/                        "scalaz"
+  [part1]:    http://downgra.de/2010/07/07/functors_in_scala_and_haskell_part_1 "functors in scala and haskell part 1"
+  [part2]:    http://downgra.de/2010/07/08/functors_in_scala_and_haskell_part_2 "functors in scala and haskell part 2"
+
