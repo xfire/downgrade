@@ -1,0 +1,88 @@
+---
+layout: post
+title: scala self-types
+categories: programming, scala
+---
+
+instead of [multiple inheritance][minh], [scala][scala] provide a
+[mixin-based composition mechanism][mixins]. this is usually done with trait's, which
+is excellent for decoupling behaviours.
+
+but sometimes you want to restrict these behaviours to a special domain. this can be done
+with self-types. 
+
+self-types are written as follows:
+
+    :::scala
+    trait Foo { self: SomeType =>
+      ...
+    }
+
+`self` here refers to `this`, which can be very usefull in situations, where you can not
+easily access the particular `this` of the current context.   
+also `self` can be extended with type bounds. in this example, the trait `Foo` can
+only be mixed in a class which also implements `SomeType`. you can use this feature to
+restrict behaviours to a special domain.
+
+I think the following examples are self-explanatory...
+
+    :::scala
+    object SelfTypes {
+     
+      trait MustHave1
+      trait MustHave2
+      trait Independent
+     
+      // constrain the traits A, B and C
+      trait A { self: MustHave1 => }
+      trait B { self: MustHave2 => }
+      trait C { self: MustHave1 with MustHave2 => }
+     
+      // correct usage
+      class Test1 extends MustHave1 with A
+      class Test2 extends MustHave2 with B
+      class Test3 extends MustHave1 with MustHave2 with C
+      class Test4 extends MustHave1 with Independent with A
+      class Test5 extends Test1 with A
+      class Test6 extends Test3 with A with B
+     
+    // -- these examples do not type check
+    //  class Wrong1 extends A
+    //  class Wrong2 extends A with Independent
+    //  class Wrong3 extends MustHave2 with A
+    //  class Wrong4 extends MustHave1 with C
+     
+      // mixing the behaviours Resize and ColorCount in our domain Image
+      case class Image(width: Int, height: Int, buf: Array[Byte])
+     
+      trait Resize { self: Image =>
+        def resize(newWidth: Int, newHeight: Int): Image = {
+          // a really stupid implementation
+          Image(newWidth, newHeight, buf.slice(0, newWidth * newHeight))
+        }
+      }
+     
+      trait ColorCount { self: Image =>
+        def count(color: Byte) = buf.foldLeft(0) {(a, v) => if(v == color) a + 1 else a }
+      }
+     
+      def main(args: Array[String]) = {
+        val i = new Image(5, 3, Array(1,2,2,2,2,1,3,3,3,3,1,2,2,2,2))
+                      with Resize
+                      with ColorCount
+        val n = i.resize(3, 1)
+        assert(n.width == 3)
+        assert(n.height == 1)
+        assert(n.buf.size == (n.width * n.height))
+        assert(i.count(1) == 3)
+        assert(i.count(2) == 8)
+        assert(i.count(3) == 4)
+      }
+    }
+
+hth
+
+  [scala]:    http://www.scala-lang.org/                              "scala"
+  [mixins]:   http://www.scala-lang.org/node/117                      "scala mixin class composition"
+  [minh]:     http://en.wikipedia.org/wiki/Multiple_inheritance       "multiple inheritance"
+
