@@ -1,0 +1,118 @@
+---
+layout: post
+title: 'scala gotcha: blocks and functions'
+categories: scala, gotcha, programming
+---
+
+today I stumble over a nasty scala gotcha. most people think that a code block is the same
+as a function. this is not true. let's see why.
+
+first we define a function `f1` which take another function as parameter.
+
+    :::scala
+    scala> def f1(f: Int => Int) {
+         |   println(">> f1")
+         |   println("  got " + f(23))
+         |   println("  got " + f(42))
+         |   println("<< f1")
+         | }
+    f1: (f: (Int) => Int)Unit
+
+now we call `f1` with a code block. I deliberately add an side-effect to show the (for most people
+including me) unexpected behaviour.
+
+    :::scala
+    scala> f1 { println("  >> add 23"); _ + 23 }
+      >> add 23
+    >> f1
+      got 46
+      got 65
+    << f1
+
+here the code block will be executed and the last statement `_ + 23` will be passed to the function `f1`.
+the function `f1` expect a parameter of the type `Int => Int`, so the last parameter of the block need to be
+a function of this type.
+the code block is executed only *once*, and the function `f1` receive a function of type `Int => Int` which
+here add 23 to its parameter.
+
+here an example which show that `_ + 1` is of type `Function1` which is `Int => Int`.
+
+    :::scala
+    scala> val x: Int => Int = _ + 1
+    x: (Int) => Int = <function1>
+
+    scala> f1(x)
+    >> f1
+      got 24
+      got 43
+    << f1
+
+the function `f1` can also called with a normal function definition. calling `f1` this way, the side-effect
+is executed every time with the closure.
+
+    :::scala
+    scala> f1 { i => println("  >> add 42"); i + 42 }
+    >> f1
+      >> add 42
+      got 65
+      >> add 42
+      got 84
+    << f1
+
+special are functions which have no parameters. a way to express such a type is `() => Int`.
+
+    :::scala
+    scala> def f2(f: () => Int) {
+         |   println(">> f2")
+         |   println("  got " + f())
+         |   println("  got " + f())
+         |   println("<< f2")
+         | } 
+    f2: (f: () => Int)Unit
+
+    scala> f2 {42} // won't compile
+    <console>:7: error: type mismatch;
+     found   : Int(42)
+     required: () => Int
+           f2 {42} // won't compile
+
+but calling is not so straightforward.
+
+clearly, `() =>` is missing. so, now it works. the side-effect is now in the function which is
+received by `f2`, the side-effect is executed every time with the closure.
+
+    :::scala
+    scala> f2 { () => println("  >> return 42"); 42 }
+    >> f2
+      >> return 42
+      got 42
+      >> return 42
+      got 42
+    << f2
+
+the last way is to define a by-name parameter via `=> Int`.
+
+    :::scala
+    scala> def f3(f: => Int) {
+         |   println(">> f3")
+         |   println("  got " + f)
+         |   println("  got " + f)
+         |   println("<< f3")
+         | }
+    f3: (f: => Int)Unit
+
+the code block is now handled in a special way. instead of executing it directly like in the first example, it
+is converted to a function like object and passed to the function `f3`. so the side-effect is called every time
+with the closure.
+
+    :::scala
+    scala> f3 { println("  >> return 23"); 23 }
+    >> f3
+      >> return 23
+      got 23
+      >> return 23
+      got 23
+    << f3
+
+I hope this helps understanding this better.
+
