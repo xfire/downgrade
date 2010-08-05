@@ -5,7 +5,7 @@ categories: programming, scala
 ---
 
 instead of [multiple inheritance][minh], [scala][scala] provide a
-[mixin-based composition mechanism][mixins]. this is usually done with trait's, which
+[mixin-based composition mechanism][mixins]. this is usually done with traits, which
 is excellent for decoupling behaviours.
 
 but sometimes you want to restrict these behaviours to a special domain. this can be done

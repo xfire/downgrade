@@ -7,13 +7,13 @@ categories: scala, haskell, functors, programming
 today I post some [functor][functors] examples to show how to use them in [haskell][haskell]
 and in [scala][scala]. 
 
-[haskell][haskell] functors a available in the `Control.Monad` and the `Control.Monad.Instances`
+[haskell][haskell] functors are available in the `Control.Monad` and the `Control.Monad.Instances`
 module.
 
 I won't reinvent the wheel so I use the [scalaz][scalaz] library. This cool library provides
 a lot of handy features like functors, applicative functors or monads.
 
-a good description what [functor's][functors] are, is the following sentence:
+a good description what [functors][functors] are, is the following sentence:
 
 
 > Functors are structure-preserving maps between categories.
@@ -94,8 +94,8 @@ must be written. most times this is done easily, but those instance must follow 
 * identity morphism: `fmap id = id`
 * composition morphism: `fmap (f . g) = fmap f . fmap g`
 
-so [functor's][functors] are a awesome abstraction over data structures and a corner stone for
-[monad's][monad].
+so [functors][functors] are a awesome abstraction over data structures and a corner stone for
+[monads][monad].
 
 enough for now...
 
