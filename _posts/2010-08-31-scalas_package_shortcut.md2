@@ -1,0 +1,35 @@
+---
+layout: post
+title: scala's package shortcut
+categories: programming, scala
+---
+
+keep in mind, that these three examples express exactly the same.
+
+### sample 1
+    :::scala
+    package a {
+      package b {
+        package c {
+          object SomeTest { ... }
+        }
+      }
+    }
+
+### sample 2
+    :::scala
+    package a
+    package b
+    package c
+
+    object SomeTest { ... }
+
+### sample 3
+    :::scala
+    package a.b.c
+    import a._
+    import a.b._
+
+    object SomeTest { ... }
+
+hth
