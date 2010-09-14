@@ -1,0 +1,43 @@
+---
+layout: post
+title: multi-line strings with scala
+categories: programming, scala
+---
+
+I love the multi-line strings from [python][python]. very usefull, but there is always the problem
+with the indentation. [python][python] has an elegant solution, the
+[`textwrap.dedent(text)`](http://docs.python.org/library/textwrap.html#textwrap.dedent) function.
+
+scala has a almost as elegant solution, the
+[`stripMargin`](http://www.scala-lang.org/api/current/scala/collection/immutable/StringLike.html)
+function.
+
+see it here in action:
+
+    :::scala
+    """foo
+       bar"""
+    foo
+       bar
+
+    """|foo
+       |bar""".stripMargin
+    foo
+    bar
+
+other than [pythons][python] function, [scalas][scala] `stripMargin` function need a special
+character to which leading whitespaces are removed. default is the pipe `|`, but you can use
+any charater you want:
+
+    :::scala
+    """#spam
+       #eggs""".stripMargin('#')
+    spam
+    eggs
+
+
+hth
+
+  [python]:   http://www.python.org/ "python"
+  [scala]:    http://www.scala-lang.org/ "scala"
+
