@@ -1,0 +1,11 @@
+---
+layout: post
+title: release scopt version 2.0 - scala option parser
+categories: scopt, scala, programming
+---
+
+I just release the beta of scopt v2, version 2.0 of the scala option parser.
+
+you can find the documentation and code on [github](http://github.com/xfire/scopt).
+
+hth

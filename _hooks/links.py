@@ -9,7 +9,8 @@ class Link(object):
         self.url = url
 
 
-projects = [ Link('growl',       'https://github.com/xfire/growl/tree'),
+projects = [ Link('scopt',       'http://github.com/xfire/scopt'),
+             Link('growl',       'https://github.com/xfire/growl/tree'),
              Link('pydzen',      'https://github.com/xfire/pydzen/tree'),
              Link('python-wmii', 'https://github.com/xfire/python-wmii/tree'),
              Link('preplace',    'https://github.com/xfire/preplace/tree'),
