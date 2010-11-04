@@ -9,7 +9,7 @@ class Link(object):
         self.url = url
 
 
-projects = [ Link('scopt',       'http://github.com/xfire/scopt'),
+projects = [ Link('scarg',       'http://github.com/xfire/scarg'),
              Link('growl',       'https://github.com/xfire/growl/tree'),
              Link('pydzen',      'https://github.com/xfire/pydzen/tree'),
              Link('python-wmii', 'https://github.com/xfire/python-wmii/tree'),
