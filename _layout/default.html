@@ -41,7 +41,7 @@
                  </li>
                  <li> <span>recent entries</span>
                       <ul>
-                        {% for post in site.posts | reverse | list[0:8] %}
+                        {% for post in (site.posts | reverse | list)[0:8] %}
                             <li>&raquo; <a href="/{{ post.url }}">{{ post.title }}</a></li>
                         {% endfor %}
                       </ul>
